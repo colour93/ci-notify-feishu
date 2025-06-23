@@ -109,4 +109,4 @@
 }
 ```
 
-然后可以参考 [https://github.com/colour93/actions-lark-demo/blob/main/.github/workflows/ci.yml](https://github.com/colour93/actions-lark-demo/blob/main/.github/workflows/ci.yml) 这里编写 workflow
+然后可以参考 [https://github.com/colour93/ci-notify-feishu-demo/blob/main/.github/workflows/ci.yml](https://github.com/colour93/ci-notify-feishu-demo/blob/main/.github/workflows/ci.yml) 这里编写 workflow
