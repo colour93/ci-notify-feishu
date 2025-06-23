@@ -1,8 +1,14 @@
 name: 'Feishu Notification'
 description: 'Send notification to Feishu'
 inputs:
-  webhook_url:
+  feishu_webhook_url:
     description: 'Feishu webhook URL'
+    required: true
+  feishu_template_id:
+    description: 'Feishu template ID'
+    required: true
+  feishu_template_version_name:
+    description: 'Feishu template version name'
     required: true
   build_result:
     description: 'Build result (success/failure)'
@@ -25,23 +31,20 @@ runs:
   steps:
     - name: Send Notification
       shell: bash
-      env:
-        TEMPLATE_ID: ${{ env.FEISHU_TEMPLATE_ID }}
-        TEMPLATE_VERSION: ${{ env.FEISHU_TEMPLATE_VERSION }}
       run: |
         status="${{ inputs.build_result == 'success' && '成功' || '失败' }}"
         theme="${{ inputs.build_result == 'success' && 'green' || 'red' }}"
         
         curl --request POST \
-          --url ${{ inputs.webhook_url }} \
+          --url ${{ inputs.feishu_webhook_url }} \
           --header 'Content-Type: application/json' \
           --data "{
             \"msg_type\": \"interactive\",
             \"card\": {
               \"type\": \"template\",
               \"data\": {
-                \"template_id\": \"$TEMPLATE_ID\",
-                \"template_version_name\": \"$TEMPLATE_VERSION\",
+                \"template_id\": \"${{ inputs.feishu_template_id }}\",
+                \"template_version_name\": \"${{ inputs.feishu_template_version_name }}\",
                 \"template_variable\": {
                   \"ci_target\": \"${{ inputs.ci_target }}\",
                   \"ci_target_image\": \"${{ inputs.ci_target_image }}\",
